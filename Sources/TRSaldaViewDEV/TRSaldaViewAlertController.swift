@@ -1,6 +1,6 @@
 //
 //  TRSaldaViewController.swift
-//  
+//
 //
 //  Created by Kerim Çağlar on 5.12.2019.
 //
@@ -27,8 +27,14 @@ public enum TRControllerStyle: Int {
 //MARK: animasyon seçeneği olmalı
 //MARK: textField seçeneği koyalım
 @available(iOS 9.0, *)
-struct TRSaldaViewAlertController {
+class TRSaldaViewAlertController {
     
+    init(title: String, message: String, preferredStyle: TRControllerStyle) {
+        self.title = title
+        self.message = message
+        self.preferredStyle = preferredStyle
+    }
+
     ///prefferedStyle ayarlaması
     var preferredStyle: TRControllerStyle
     var isAlert: Bool { return preferredStyle == TRControllerStyle.alert } //.alert de denebilir; false değerinde actionSheet olacak
@@ -92,7 +98,13 @@ struct TRSaldaViewAlertController {
             titleView.backgroundColor = titleViewBgColor
         }
     }
-    var titleLabel = UILabel()
+    var title: String?
+    var titleLabel = UILabel(){
+        didSet {
+            guard let title = title else { return }
+            titleLabel.text = title
+        }
+    }
     
     var titleFont = UIFont(name: "jeneric_fontlar", size: 15) {
         didSet {
