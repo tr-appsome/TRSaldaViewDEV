@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TinyConstraints
 
 public enum TRActionStyle: Int {
     case `default`
