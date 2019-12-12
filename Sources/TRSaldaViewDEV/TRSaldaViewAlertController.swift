@@ -47,7 +47,7 @@ class TRSaldaViewAlertController: UIViewController {
     }
     
     var preferredStyle: TRControllerStyle
-    var isAlert: Bool { return preferredStyle == TRControllerStyle.alert } //.alert de denebilir; false değerinde actionSheet olacak
+    var isAlert: Bool { return preferredStyle == TRControllerStyle.alert }
     
     lazy var containerView: UIView = {
         let view = UIView()
@@ -159,8 +159,11 @@ class TRSaldaViewAlertController: UIViewController {
         
         NSLayoutConstraint.activate([
             containerView.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, constant: Constants.Constraint.containerViewWidthLeftAndRightMargin),
-//            containerView.heightAnchor.constraint(lessThanOrEqualTo: topStackView.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * 2),
-            containerView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * -4),
+            //TODO: if containerView.frame.height > self.view.frame.height
+            //containerView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * -4),
+            //Eğer content ekran boyutunu geçmiyorsa
+            containerView.heightAnchor.constraint(lessThanOrEqualTo: topStackView.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * 2),
+            
             containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
 
