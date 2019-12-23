@@ -19,30 +19,43 @@ public enum TRControllerStyle: Int {
     case actionSheet
 }
 
-///UIAlertController(title: title, message: message, preferredStyle: .alert)
-//MARK: butonlar ile mesaj arasına çizgi konulmalı -> seperator -- divider
-//MARK: butonlara font/renk tanımlaması yapılmalı
-//MARK: alertView cornerRadius olmalı mı?
-//MARK: icon eklenebilmeli
-//MARK: gradient seçeneği olmalı (ton geçiş değerleri belirlenebilmeli)
-//MARK: animasyon seçeneği olmalı
-//MARK: textField seçeneği koyalım
 @available(iOS 9.0, *)
-class TRSaldaViewAlertController {
-    
-    init(title: String, message: String, preferredStyle: TRControllerStyle) {
-        self.title = title
+class TRSaldaViewAlertController: UIViewController {
+
+     init(title: String, message: String, preferredStyle: TRControllerStyle) {
+        self.alertTitle = title
         self.message = message
         self.preferredStyle = preferredStyle
+        super.init(nibName: nil, bundle: nil)
+        setup()
     }
 
-    ///prefferedStyle ayarlaması
-    var preferredStyle: TRControllerStyle
-    var isAlert: Bool { return preferredStyle == TRControllerStyle.alert } //.alert de denebilir; false değerinde actionSheet olacak
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    /// Tüm alert alanını kapsayacak yer
-    var containerView = UIView()
-    var containerViewWidth:CGFloat = 250
+    private enum Constants {
+        enum UI {
+            static let containerViewBgColor: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.4030126284)
+            static let containerViewCornerRadius: CGFloat  = 5
+            static let topStackViewSpacing: CGFloat = 5
+        }
+        enum Constraint {
+            static let topScrollViewMarginTop: CGFloat = 10
+            static let containerViewWidthLeftAndRightMargin: CGFloat = -50
+            static let titleAndMessageLabelRightAndLeftMargin: CGFloat = 10
+        }
+    }
+    
+    var preferredStyle: TRControllerStyle
+    var isAlert: Bool { return preferredStyle == TRControllerStyle.alert }
+    
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Constants.UI.containerViewBgColor
+        view.layer.cornerRadius = Constants.UI.containerViewCornerRadius
+        return view
+    }()
     
     var cornerRadius:CGFloat = 15 {
         didSet{
@@ -60,62 +73,122 @@ class TRSaldaViewAlertController {
             }
         }
     }
+
+    private lazy var topScrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.autoresizingMask = .flexibleHeight
+        view.frame = self.view.bounds
+        view.showsHorizontalScrollIndicator = true
+        view.bounces = true
+        return view
+    }()
     
-    var alertBgColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1.0) {
-        didSet {
-            containerView.backgroundColor = alertBgColor
+    private lazy var topStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.spacing = Constants.UI.topStackViewSpacing
+        view.alignment = .fill
+        return view
+    }()
+    
+    var topStackViewBgColor = UIColor.black {
+        didSet{
+            topStackView.backgroundColor = topStackViewBgColor
         }
     }
     
-    ///Mesaj için gerekli ayarlamalar
-    var messageView = UIView()
-    var messageLabel = UILabel()
-    var message:String!
+    //MARK: Title
+    var alertTitle: String?
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = self.alertTitle
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+
+    var titleFont = UIFont(name: "jeneric_fontlar", size: 15) {
+        didSet {
+            titleLabel.font = self.titleFont
+        }
+    }
+    
+    var titleTextColor = UIColor.black {
+        didSet {
+            titleLabel.textColor = self.titleTextColor
+        }
+    }
+    
+    //MARK: Message
+    var message:String?
+    private lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.text = message
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
     var messageFont = UIFont(name:"jeneric_fontlar", size:18) {
         didSet {
             messageLabel.font = self.messageFont
         }
     }
+    
     var messageTextColor = UIColor.black {
         didSet{
             messageLabel.textColor = self.messageTextColor
         }
     }
     
-    ///Eklenecek butonlar OK, CANCEL gibi
-    var buttonView = UIStackView() //iOS 9 desteği gerekiyor
-    var actions: [TRActionStyle] = []
-    var defaultButton = UIButton()
+    //MARK: Setup Alert
+    private func setup() {
+        self.modalPresentationStyle = .overFullScreen
+        view.addSubview(containerView)
+        containerView.addSubview(topScrollView)
+        topScrollView.addSubview(topStackView)
     
-    var buttons = [UIButton]()
-    var cancelTag = 0
-    
-    ///Title için gerekli ayarlamalar
-    var titleView = UIView()
-    let titleViewHeight:CGFloat = 45.0
-    
-    var titleViewBgColor = UIColor.black {
-        didSet{
-            titleView.backgroundColor = titleViewBgColor
-        }
-    }
-    var title: String?
-    var titleLabel = UILabel(){
-        didSet {
-            guard let title = title else { return }
-            titleLabel.text = title
-        }
-    }
-    
-    var titleFont = UIFont(name: "jeneric_fontlar", size: 15) {
-        didSet {
-            titleLabel.font = self.titleFont
-        }
-    }
-    var titleTextColor = UIColor.black {
-        didSet {
-            titleLabel.textColor = self.titleTextColor
-        }
+        topStackView.addArrangedSubview(titleLabel)
+        topStackView.addArrangedSubview(messageLabel)
+        
+        makeConstraint()
     }
 
+    private func makeConstraint() {
+        enableAutoLayout([titleLabel,messageLabel,topScrollView,topStackView,containerView])
+        
+        NSLayoutConstraint.activate([
+            containerView.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, constant: Constants.Constraint.containerViewWidthLeftAndRightMargin),
+            //TODO: if containerView.frame.height > self.view.frame.height
+            //containerView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * -4),
+            //Eğer content ekran boyutunu geçmiyorsa
+            containerView.heightAnchor.constraint(lessThanOrEqualTo: topStackView.heightAnchor, constant: Constants.Constraint.topScrollViewMarginTop * 2),
+            
+            containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+
+            topScrollView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constants.Constraint.topScrollViewMarginTop),
+            topScrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            topScrollView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            topScrollView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
+
+            topStackView.leadingAnchor.constraint(equalTo: topScrollView.leadingAnchor),
+            topStackView.trailingAnchor.constraint(equalTo: topScrollView.trailingAnchor),
+            topStackView.topAnchor.constraint(equalTo: topScrollView.topAnchor),
+            topStackView.bottomAnchor.constraint(equalTo: topScrollView.bottomAnchor),
+            topStackView.widthAnchor.constraint(equalTo: topScrollView.widthAnchor),
+
+            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor,constant: -Constants.Constraint.titleAndMessageLabelRightAndLeftMargin),
+            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor,constant: Constants.Constraint.titleAndMessageLabelRightAndLeftMargin),
+        
+            messageLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor,constant: -Constants.Constraint.titleAndMessageLabelRightAndLeftMargin),
+            messageLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor,constant: Constants.Constraint.titleAndMessageLabelRightAndLeftMargin)
+        ])
+        
+    }
+    
+    private func enableAutoLayout(_ views: [UIView]) {
+        _ = views.map{ $0.translatesAutoresizingMaskIntoConstraints = false }
+    }
 }

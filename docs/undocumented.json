@@ -1,0 +1,75 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertAction.swift",
+      "line": 10,
+      "symbol": "TRAlertAction",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertAction.swift",
+      "line": 18,
+      "symbol": "TRAlertAction.init(title:bgColor:style:handler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 10,
+      "symbol": "TRActionStyle",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 11,
+      "symbol": "TRActionStyle.default",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 12,
+      "symbol": "TRActionStyle.cancel",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 13,
+      "symbol": "TRActionStyle.destructive",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 16,
+      "symbol": "TRControllerStyle",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 17,
+      "symbol": "TRControllerStyle.alert",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewAlertController.swift",
+      "line": 18,
+      "symbol": "TRControllerStyle.actionSheet",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView/Sources/TRSaldaViewDEV/TRSaldaViewDEV.swift",
+      "line": 4,
+      "symbol": "UIViewController.showAlert(title:message:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/omurolgunay/Desktop/AppSome/TRSaldaView"
+}
