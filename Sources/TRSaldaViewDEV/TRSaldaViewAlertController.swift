@@ -20,7 +20,7 @@ public enum TRControllerStyle: Int {
 }
 
 @available(iOS 9.0, *)
-class TRSaldaViewAlertController: UIViewController {
+public class TRSaldaViewAlertController: UIViewController {
 
      init(title: String, message: String, preferredStyle: TRControllerStyle) {
         self.alertTitle = title
